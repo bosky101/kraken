@@ -18,11 +18,32 @@ Download the latest Kraken release (or clone the git project), and then use the 
 
     ./rebar get-deps compile
 
-You can now run Kraken in the foreground like this:
+You need to know create a node like this
 
-    bin/kraken run
+    cd rel
+    rebar create-node nodeid=node
+
+    #reverts back important files in rel
+    git checkout ../rel
+
+    cd ..
+
+    rebar generate
+
+Since rel has been configured in rebar.config, you can now run Kraken in the foreground like this:
+
+    ./rel/node/bin/node run
 
 This will start Kraken up with the default config. It will listen to new TCP connections on port 12355.
+
+Additional configurations are made in the OTP style, such as 
+
+rel/vars.config
+for adding variables that can often change
+
+rel/files/sys.config
+for configurations that do not change often
+
 
 ### Running Kraken
 
@@ -30,16 +51,20 @@ Kraken comes with a little bash script that provides a handful of useful command
 
 Running Kraken in the foreground, with a live erlang shell
 
-    bin/kraken run
+    ./rel/node/bin/node start
 
 Starting and Stopping Kraken in the background
 
-    bin/kraken start
-    bin/kraken stop
+    ./rel/node/bin/node start
+    ./rel/node/bin/node stop
 
 Checking if Kraken is currently running in the background
 
-    bin/kraken status
+    ./rel/node/bin/node status
+
+# Testing
+
+The following are currently being tested
 
 Changing the Kraken log level while it is running
 
@@ -59,7 +84,7 @@ Dumping all topics with a count of subscribers
 
 ### Configuring Kraken
 
-Before running Kraken in production, you will want to customize some of the config options. Kraken is built as a standard OTP application, so you can modify config options directly from the command line or by specifying a custom erlang config.
+Before running Kraken in production, you will want to customize some of the config options. Kraken is built as a standard OTP application, so you can modify config options directly from the command line or by editing rel/files/sys.config which sources variables easily from rel/vars.config
 
 #### Supported options
 
@@ -124,7 +149,7 @@ There are two ways of scaling Kraken beyond a single machine:
 
 ### Authors and Contributors
 
-Kraken was originally written by Kris Rasmussen (@krisr) at [Asana](http://www.asana.com/jobs). The Kraken mascot was designed by Stephanie Hornung.
+Kraken was originally written by Kris Rasmussen (@krisr) at [Asana](http://www.asana.com/jobs). The Kraken mascot was designed by Stephanie Hornung. Lager support added by Bhasker Kode (@bosky101) at https://github.com/bosky101/kraken
 
 ### Support or Contact
 Having trouble with Kraken? Check out the documentation at https://github.com/Asana/Kraken/wiki or file an issue at https://github.com/Asana/Kraken/issues and we’ll help you sort it out.
