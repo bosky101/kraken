@@ -4,6 +4,8 @@ deps
 _test
 .eunit
 
+# ignore commonly changed files in rel
+rel/*/
 # ignore compiled files
 *.beam
 
